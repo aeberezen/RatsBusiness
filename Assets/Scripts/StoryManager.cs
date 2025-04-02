@@ -34,7 +34,7 @@ public class StoryManager : MonoBehaviour
 
     public void CheckStoryState()
     {
-        if (triggerBoxes[currentStoryState].GetComponent<MessageManager>().done && !checkLaptopButton.GetComponent<Image>().enabled && currentStoryState < 15)
+        if (currentStoryState < 15 && triggerBoxes[currentStoryState].GetComponent<MessageManager>().done && !checkLaptopButton.GetComponent<Image>().enabled)
         {
             isSaved = false;
             fromLoad = false;
@@ -85,6 +85,9 @@ public class StoryManager : MonoBehaviour
         for (int i = 0; i < currentStoryState; i++)
         {
             triggerBoxes[i].GetComponent<MessageManager>().LaptopUpdate(true);
+            //TO FIX
+            //turning on all the effects
+            triggerBoxes[i].GetComponent<MessageManager>().EffectsCheck(fromLoad);
         }
     }
 
@@ -93,7 +96,7 @@ public class StoryManager : MonoBehaviour
         //getting story state from the main menu to load correct episode/start new game
         //PlayerPrefs.SetInt("Scene", 11); // FOR TESTING
         currentStoryState = PlayerPrefs.GetInt("Scene", 0);
-        SetStoryState(currentStoryState);
+        //SetStoryState(currentStoryState);
 
         keysTutorial.SetActive(true);
         StartCoroutine(HideAfterTime(keysTutorial, 5f));
@@ -103,6 +106,11 @@ public class StoryManager : MonoBehaviour
             Debug.LogError("There is more than one Story Manager!");
         }
         instance = this;
+    }
+
+    private void Start()
+    {
+        SetStoryState(currentStoryState);
     }
 
     // Update is called once per frame

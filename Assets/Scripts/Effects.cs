@@ -7,6 +7,8 @@ using UnityEngine.Rendering.Universal;
 
 //shaking camera effect
 //blinking light effect
+//color fog effect
+//camera lookAt effect
 
 public class Effects : MonoBehaviour
 {
@@ -31,10 +33,19 @@ public class Effects : MonoBehaviour
     [Header("Color fog effect")]
     public ParticleSystem[] fog;
 
+    //REVIEW
+    [Header("Camera lookAt effect")]
+    public CinemachineFreeLook freeLookCam; // FreeLook камера
+    public Transform player;  // Игрок
+    public Transform[] cameraTargets;  // Объект, на который хотим сфокусироваться
+    public float focusDuration = 1f;  // Время, сколько камера остается на объекте
+    public float transitionSpeed = 2f;  // Скорость перехода
+
     private void Awake()
     {
         Instance = this;
         cinemachineFreeLook = GetComponent<CinemachineFreeLook>();
+        DontDestroyOnLoad(gameObject);
     }
 
     public void ShakeCamera(float intensity, float duration)
@@ -76,7 +87,6 @@ public class Effects : MonoBehaviour
         StartCoroutine(BlinkCoroutine());
     }
 
-    //TODO: REVIEW
     private IEnumerator BlinkCoroutine()
     {
         float startExposure = colorAdjustments.postExposure.value;
@@ -134,6 +144,36 @@ public class Effects : MonoBehaviour
         }
     }
 
+    //REVIEW
+    public void CameraLookAt(int cameraTargetNum)
+    {
+        StartCoroutine(SmoothFocus(cameraTargets[cameraTargetNum]));
+    }
+
+    private IEnumerator SmoothFocus(Transform newTarget)
+    {
+        Transform originalLookAt = freeLookCam.LookAt;
+
+        float time = 0f;
+        while (time < 1f)
+        {
+            time += Time.deltaTime * transitionSpeed;
+            freeLookCam.LookAt = newTarget;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(focusDuration);
+
+        time = 0f;
+        while (time < 1f)
+        {
+            time += Time.deltaTime * transitionSpeed;
+            freeLookCam.LookAt = originalLookAt;
+            yield return null;
+        }
+    }
+
+    //REVIEW
     void Update()
     {
         if (shakeTimer > 0)

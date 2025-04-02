@@ -1529,6 +1529,7 @@ MonoBehaviour:
   laptopCheck: 0
   failed: 0
   done: 0
+  effectsObjects: 0
   effects: []
   newBackground: {fileID: 0}
   lineToStartEffect: 0
@@ -1539,6 +1540,8 @@ MonoBehaviour:
   maxDuration: 0
   maxExposure: 0
   colorFog: 0
+  cameraLookAt: 0
+  cameraLookAtNum: 0
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!4 &51690478 stripped
 Transform:
@@ -3692,6 +3695,7 @@ MonoBehaviour:
   laptopCheck: 1
   failed: 0
   done: 0
+  effectsObjects: 0
   effects: []
   newBackground: {fileID: 0}
   lineToStartEffect: 0
@@ -3702,6 +3706,8 @@ MonoBehaviour:
   maxDuration: 0
   maxExposure: 0
   colorFog: 0
+  cameraLookAt: 0
+  cameraLookAtNum: 0
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!1001 &163200909
 PrefabInstance:
@@ -5929,6 +5935,7 @@ MonoBehaviour:
   laptopCheck: 0
   failed: 0
   done: 0
+  effectsObjects: 0
   effects: []
   newBackground: {fileID: 0}
   lineToStartEffect: 0
@@ -5939,6 +5946,8 @@ MonoBehaviour:
   maxDuration: 0
   maxExposure: 0
   colorFog: 0
+  cameraLookAt: 0
+  cameraLookAtNum: 0
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!4 &275948421
 Transform:
@@ -8260,6 +8269,7 @@ MonoBehaviour:
   laptopCheck: 1
   failed: 0
   done: 0
+  effectsObjects: 0
   effects: []
   newBackground: {fileID: 0}
   lineToStartEffect: 0
@@ -8270,6 +8280,8 @@ MonoBehaviour:
   maxDuration: 0
   maxExposure: 0
   colorFog: 0
+  cameraLookAt: 0
+  cameraLookAtNum: 0
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!82 &376954297
 AudioSource:
@@ -9843,7 +9855,7 @@ MonoBehaviour:
   - clip:
     - {fileID: 8300000, guid: bbd38e1d29d2e8248b5adc24010c17f0, type: 3}
     name: WhiteNoise
-    volume: 1
+    volume: 0.6
     loop: 0
     isPaused: 0
     source: {fileID: 0}
@@ -14020,6 +14032,7 @@ MonoBehaviour:
   laptopCheck: 1
   failed: 0
   done: 0
+  effectsObjects: 0
   effects: []
   newBackground: {fileID: 0}
   lineToStartEffect: 0
@@ -14030,6 +14043,8 @@ MonoBehaviour:
   maxDuration: 0
   maxExposure: 0
   colorFog: 0
+  cameraLookAt: 0
+  cameraLookAtNum: 0
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!1001 &617323414
 PrefabInstance:
@@ -15496,6 +15511,7 @@ MonoBehaviour:
   laptopCheck: 0
   failed: 0
   done: 0
+  effectsObjects: 0
   effects: []
   newBackground: {fileID: 0}
   lineToStartEffect: 0
@@ -15506,6 +15522,8 @@ MonoBehaviour:
   maxDuration: 0
   maxExposure: 0
   colorFog: 0
+  cameraLookAt: 0
+  cameraLookAtNum: 0
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!135 &663528561
 SphereCollider:
@@ -18564,6 +18582,7 @@ MonoBehaviour:
   laptopCheck: 0
   failed: 0
   done: 0
+  effectsObjects: 0
   effects: []
   newBackground: {fileID: 0}
   lineToStartEffect: 0
@@ -18574,6 +18593,8 @@ MonoBehaviour:
   maxDuration: 0
   maxExposure: 0
   colorFog: 0
+  cameraLookAt: 1
+  cameraLookAtNum: 1
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!114 &782103652
 MonoBehaviour:
@@ -18858,6 +18879,7 @@ MonoBehaviour:
   laptopCheck: 0
   failed: 0
   done: 0
+  effectsObjects: 1
   effects:
   - {fileID: 1536675502}
   newBackground: {fileID: 8300000, guid: b9f9d8e7428f31847a28721ea307d628, type: 3}
@@ -18869,6 +18891,8 @@ MonoBehaviour:
   maxDuration: 0.5
   maxExposure: -8
   colorFog: 0
+  cameraLookAt: 0
+  cameraLookAtNum: 0
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!1 &784612059
 GameObject:
@@ -22824,6 +22848,7 @@ MonoBehaviour:
   laptopCheck: 0
   failed: 0
   done: 0
+  effectsObjects: 0
   effects: []
   newBackground: {fileID: 0}
   lineToStartEffect: 0
@@ -22834,6 +22859,8 @@ MonoBehaviour:
   maxDuration: 0
   maxExposure: 0
   colorFog: 0
+  cameraLookAt: 0
+  cameraLookAtNum: 0
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!1 &998940388 stripped
 GameObject:
@@ -26313,6 +26340,7 @@ MonoBehaviour:
   laptopCheck: 1
   failed: 0
   done: 0
+  effectsObjects: 0
   effects:
   - {fileID: 1358699711}
   newBackground: {fileID: 0}
@@ -26324,6 +26352,8 @@ MonoBehaviour:
   maxDuration: 0.5
   maxExposure: -9
   colorFog: 1
+  cameraLookAt: 0
+  cameraLookAtNum: 0
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!1 &1182144903
 GameObject:
@@ -28699,6 +28729,7 @@ MonoBehaviour:
   laptopCheck: 0
   failed: 0
   done: 0
+  effectsObjects: 0
   effects: []
   newBackground: {fileID: 0}
   lineToStartEffect: 0
@@ -28709,6 +28740,8 @@ MonoBehaviour:
   maxDuration: 0
   maxExposure: 0
   colorFog: 0
+  cameraLookAt: 1
+  cameraLookAtNum: 0
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!135 &1285884208
 SphereCollider:
@@ -29652,6 +29685,24 @@ MonoBehaviour:
   currentMaxDuration: 0
   currentMaxExposure: 0
   fog: []
+  freeLookCam: {fileID: 1324763606}
+  player: {fileID: 2039506076}
+  cameraTargets:
+  - {fileID: 1218510110}
+  - {fileID: 67953969}
+  focusDuration: 3
+  transitionSpeed: 2
+--- !u!114 &1324763606 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8622477148485430035, guid: a245ac71ef39ac2429a428ee4c2f0a45, type: 3}
+  m_PrefabInstance: {fileID: 9901444}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324763601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 319d2fe34a804e245819465c9505ea59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1326217335 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b59239df2a57cc84db10ce5f280862ca, type: 3}
@@ -35261,6 +35312,7 @@ MonoBehaviour:
   laptopCheck: 1
   failed: 0
   done: 0
+  effectsObjects: 0
   effects: []
   newBackground: {fileID: 0}
   lineToStartEffect: 0
@@ -35271,6 +35323,8 @@ MonoBehaviour:
   maxDuration: 0
   maxExposure: 0
   colorFog: 0
+  cameraLookAt: 0
+  cameraLookAtNum: 0
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!4 &1574206185
 Transform:
@@ -36893,6 +36947,7 @@ MonoBehaviour:
   laptopCheck: 0
   failed: 0
   done: 0
+  effectsObjects: 0
   effects: []
   newBackground: {fileID: 0}
   lineToStartEffect: 0
@@ -36903,6 +36958,8 @@ MonoBehaviour:
   maxDuration: 0
   maxExposure: 0
   colorFog: 0
+  cameraLookAt: 0
+  cameraLookAtNum: 0
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!1001 &1642166457
 PrefabInstance:
@@ -42152,6 +42209,7 @@ MonoBehaviour:
   laptopCheck: 0
   failed: 0
   done: 0
+  effectsObjects: 1
   effects:
   - {fileID: 809027325}
   - {fileID: 1083163663}
@@ -42164,6 +42222,8 @@ MonoBehaviour:
   maxDuration: 0.5
   maxExposure: -8
   colorFog: 0
+  cameraLookAt: 0
+  cameraLookAtNum: 0
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!1001 &1928384762
 PrefabInstance:
@@ -42463,6 +42523,7 @@ MonoBehaviour:
   laptopCheck: 0
   failed: 0
   done: 0
+  effectsObjects: 0
   effects: []
   newBackground: {fileID: 0}
   lineToStartEffect: 0
@@ -42473,6 +42534,8 @@ MonoBehaviour:
   maxDuration: 0
   maxExposure: 0
   colorFog: 0
+  cameraLookAt: 0
+  cameraLookAtNum: 0
   CollidingPos: {x: 0, y: 0, z: 0}
 --- !u!1 &1930432026
 GameObject:
@@ -44090,6 +44153,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6369898388287856266, guid: ed6aeed15fca6054e89afcebe322a3e2, type: 3}
   m_PrefabInstance: {fileID: 2039027209}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2039506076 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6116119211409730847, guid: a245ac71ef39ac2429a428ee4c2f0a45, type: 3}
+  m_PrefabInstance: {fileID: 9901444}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2042075740
 GameObject:
