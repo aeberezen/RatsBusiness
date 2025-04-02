@@ -58,6 +58,9 @@ public class MessageManager : MonoBehaviour
     public float maxDuration;
     public float maxExposure;
 
+    [Header("Color fog")]
+    public bool colorFog;
+
     public Vector3 CollidingPos;
     private float alfaValue; //calculates text and voices fading
     private int index; //lines counter
@@ -168,6 +171,11 @@ public class MessageManager : MonoBehaviour
                             Effects.Instance.BlinkLight(maxExposure, maxFrequency, maxDuration);
                         }
 
+                        if (colorFog)
+                        {
+                            Effects.Instance.ColorFog(Color.red);
+                        }
+
                         foreach (GameObject g in effects) g.SetActive(true);
 
                         if (newBackground != null)
@@ -238,7 +246,7 @@ public class MessageManager : MonoBehaviour
 
         if (laptopCheck)
         {
-            LaptopUpdate();
+            LaptopUpdate(false);
         }
 
         done = true;
@@ -284,7 +292,7 @@ public class MessageManager : MonoBehaviour
         laptop.MailInfo.text = "\n";
     }
 
-    public void LaptopUpdate()
+    public void LaptopUpdate(bool fromLoad)
     {
         if (JeffUpdate.Length != 0)
         {
@@ -315,7 +323,7 @@ public class MessageManager : MonoBehaviour
         }
         if (MailUpdate.Length != 0)
         {
-            UIManager.SetTaskCompleted(true);
+            if (!fromLoad) { UIManager.SetTaskCompleted(true); }
             laptop.SetButtonActive("Mail");
             foreach (string s in MailUpdate)
             {

@@ -11,6 +11,10 @@ public class StoryManager : MonoBehaviour
     [Header("MB ferences")]
     [SerializeField] public GameObject[] triggerBoxes;
 
+    [Header("UI ferences")]
+    [SerializeField] public GameObject gameSaved;
+    [SerializeField] public GameObject keysTutorial;
+
     // game state - episode num
     Dictionary<int, int> Episodes = new Dictionary<int, int>()
     {
@@ -25,10 +29,16 @@ public class StoryManager : MonoBehaviour
 
     public Button checkLaptopButton;
 
+    private bool isSaved = false;
+    private bool fromLoad = false;
+
     public void CheckStoryState()
     {
         if (triggerBoxes[currentStoryState].GetComponent<MessageManager>().done && !checkLaptopButton.GetComponent<Image>().enabled && currentStoryState < 15)
         {
+            isSaved = false;
+            fromLoad = false;
+
             currentStoryState++;
             PlayerPrefs.SetInt("Scene", currentStoryState);
             if(currentStoryState > PlayerPrefs.GetInt("Progress", currentStoryState))
@@ -40,14 +50,24 @@ public class StoryManager : MonoBehaviour
         }
 
         //if episode switches, save and unlock it
-        if (Episodes.ContainsKey(currentStoryState))
+        if (Episodes.ContainsKey(currentStoryState) && !isSaved && !fromLoad)
         {
             //UI game - "GAME SAVED"
+            isSaved = true;
+            gameSaved.SetActive(true);
+            StartCoroutine(HideAfterTime(gameSaved, 5f));
         }
+    }
+
+    private IEnumerator HideAfterTime(GameObject obj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        obj.SetActive(false);
     }
 
     public void SetStoryState(int StoryState)
     {
+        fromLoad = true;
         currentStoryState = StoryState;
 
         for (int i = 0; i < 15; i++)
@@ -64,7 +84,7 @@ public class StoryManager : MonoBehaviour
         triggerBoxes[0].GetComponent<MessageManager>().LaptopClear();
         for (int i = 0; i < currentStoryState; i++)
         {
-            triggerBoxes[i].GetComponent<MessageManager>().LaptopUpdate();
+            triggerBoxes[i].GetComponent<MessageManager>().LaptopUpdate(true);
         }
     }
 
@@ -74,6 +94,9 @@ public class StoryManager : MonoBehaviour
         //PlayerPrefs.SetInt("Scene", 11); // FOR TESTING
         currentStoryState = PlayerPrefs.GetInt("Scene", 0);
         SetStoryState(currentStoryState);
+
+        keysTutorial.SetActive(true);
+        StartCoroutine(HideAfterTime(keysTutorial, 5f));
 
         if (instance != null)
         {
