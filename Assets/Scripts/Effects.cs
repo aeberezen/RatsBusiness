@@ -14,6 +14,9 @@ public class Effects : MonoBehaviour
 {
     public static Effects Instance { get; private set; }
 
+    [Header("MB with ShakeCamera effect references")]
+    [SerializeField] public GameObject[] effectsTriggerBoxes;
+
     [Header("Shaking camera effect")]
     private CinemachineFreeLook cinemachineFreeLook;
     private float shakeTimer;
@@ -22,24 +25,28 @@ public class Effects : MonoBehaviour
     [Header("Blinking light effect")]
     public Volume volume;
     private ColorAdjustments colorAdjustments;
+    private Coroutine blinkCoroutine;
+    private Coroutine blinkResetCoroutine;
     private float targetExposure;
     private float targetDuration;
     private float blinkTimer;
     public float currentMaxFrequency;
     public float currentMaxDuration;
+    public float currentMinExposure;
     public float currentMaxExposure;
-    private bool isBlinking = false;
+    private bool isBlinking = true;
+    private bool isWithShakeCamera = true;
 
-    [Header("Color fog effect")]
+    [Header("Color effect")]
     public ParticleSystem[] fog;
+    public Camera camera;
 
-    //REVIEW
     [Header("Camera lookAt effect")]
-    public CinemachineFreeLook freeLookCam; // FreeLook камера
-    public Transform player;  // Игрок
-    public Transform[] cameraTargets;  // Объект, на который хотим сфокусироваться
-    public float focusDuration = 1f;  // Время, сколько камера остается на объекте
-    public float transitionSpeed = 2f;  // Скорость перехода
+    public CinemachineFreeLook freeLookCam;
+    public Transform player;
+    public Transform[] cameraTargets;
+    public float focusDuration = 1f;
+    public float transitionSpeed = 2f;
 
     private void Awake()
     {
@@ -61,30 +68,63 @@ public class Effects : MonoBehaviour
             cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = intensity;
         }
     }
-    
 
-    public void BlinkLight(float maxExposure, float maxFrequency, float maxDuration) //how dark, how ofter, how fast
+    public void StartBlinkLight(float minExposure, float maxExposure, float maxFrequency, float maxDuration, bool withShakeCamera)
     {
-        Debug.Log("BLINKING");
-
+        Debug.Log("HERES THE NEW withShakeCamera = " + withShakeCamera);
+        isWithShakeCamera = withShakeCamera;
+        Debug.Log("HERES THE NEW ISwithShakeCamera = " + isWithShakeCamera);
         isBlinking = true;
+        BlinkLight(minExposure, maxExposure, maxFrequency, maxDuration, isWithShakeCamera);
+    }
 
-        currentMaxExposure = maxExposure;
-        currentMaxFrequency = maxFrequency;
-        currentMaxDuration = maxDuration;
-
-        targetExposure = Random.Range(0, maxExposure);
-        targetDuration = Random.Range(0.5f, maxDuration);
-
-        volume.profile.TryGet(out colorAdjustments);
-
-        if (!isShaking)
+    public void StopBlinkingLight()
+    {
+        if (blinkCoroutine != null)
         {
-            ShakeCamera(5f, targetDuration);
+            StopCoroutine(blinkCoroutine);
+            blinkCoroutine = null;
         }
+        if (blinkResetCoroutine != null)
+        {
+            StopCoroutine(blinkResetCoroutine);
+            blinkResetCoroutine = null;
+        }
+        isBlinking = false;
+        isWithShakeCamera = false;
+    }
 
-        StopCoroutine("BlinkCoroutine");
-        StartCoroutine(BlinkCoroutine());
+    public void BlinkLight(float minExposure, float maxExposure, float maxFrequency, float maxDuration, bool withShakeCamera) //how dark, how ofter, how fast
+    {
+        Debug.Log("Max Exp - " + maxExposure + "Max Freq - " + maxFrequency + "WITH SHAKE? -" + withShakeCamera);
+        if (isBlinking)
+        {
+            Debug.Log("BLINKING");
+            //isBlinking = true;
+
+            currentMinExposure = minExposure;
+            currentMaxExposure = maxExposure;
+            currentMaxFrequency = maxFrequency;
+            currentMaxDuration = maxDuration;
+
+            targetExposure = Random.Range(0, maxExposure);
+            targetDuration = Random.Range(0.5f, maxDuration);
+
+            volume.profile.TryGet(out colorAdjustments);
+
+            //TO FIX
+            if (!isShaking && withShakeCamera)
+            {
+                ShakeCamera(5f, targetDuration);
+            }
+
+            if (blinkCoroutine != null)
+            {
+                StopCoroutine(blinkCoroutine);
+            }
+
+            blinkCoroutine = StartCoroutine(BlinkCoroutine());
+        }
     }
 
     private IEnumerator BlinkCoroutine()
@@ -102,8 +142,12 @@ public class Effects : MonoBehaviour
         colorAdjustments.postExposure.value = targetExposure;
 
         //back to normal light
-        StopCoroutine("BlinkResetCoroutine");
-        StartCoroutine(BlinkResetCoroutine());
+        if (blinkResetCoroutine != null)
+        {
+            StopCoroutine(blinkResetCoroutine);
+        }
+
+        blinkResetCoroutine = StartCoroutine(BlinkResetCoroutine());
     }
 
     private IEnumerator BlinkResetCoroutine()
@@ -113,25 +157,20 @@ public class Effects : MonoBehaviour
 
         while (elapsedTime < targetDuration)
         {
-            colorAdjustments.postExposure.value = Mathf.Lerp(startExposure, -0.6f, elapsedTime / targetDuration);
+            colorAdjustments.postExposure.value = Mathf.Lerp(startExposure, currentMinExposure, elapsedTime / targetDuration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        colorAdjustments.postExposure.value = -0.6f;
+        colorAdjustments.postExposure.value = currentMinExposure;
 
         //waiting till the next blink
         yield return new WaitForSeconds(Random.Range(0.1f, currentMaxFrequency));
 
         if (isBlinking)
         {
-            BlinkLight(currentMaxExposure, currentMaxFrequency, currentMaxDuration);
+            BlinkLight(currentMinExposure, currentMaxExposure, currentMaxFrequency, currentMaxDuration, isWithShakeCamera);
         }
-    }
-
-    public void StopBlinkingLight()
-    {
-        isBlinking = false;
     }
 
     public void ColorFog(Color color)
@@ -144,7 +183,11 @@ public class Effects : MonoBehaviour
         }
     }
 
-    //REVIEW
+    public void ColorBackground(Color color)
+    {
+        camera.backgroundColor = color;
+    }
+
     public void CameraLookAt(int cameraTargetNum)
     {
         StartCoroutine(SmoothFocus(cameraTargets[cameraTargetNum]));
@@ -173,10 +216,10 @@ public class Effects : MonoBehaviour
         }
     }
 
-    //REVIEW
     void Update()
     {
-        if (shakeTimer > 0)
+        //stop ShakeCamera after time
+        if (shakeTimer > 0 && isShaking)
         {
             shakeTimer -= Time.deltaTime;
             if (shakeTimer <= 0)
@@ -190,15 +233,5 @@ public class Effects : MonoBehaviour
                 }
             }
         }
-        /*
-        if (blinkTimer > 0)
-        {
-            blinkTimer -= Time.deltaTime;
-            if (blinkTimer <= 0 && blinking)
-            {
-                BlinkLight(currentMaxExposure, currentMaxFrequency, currentMaxDuration);
-            }
-        }
-        */
     }
 }

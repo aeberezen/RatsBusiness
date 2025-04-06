@@ -32,11 +32,11 @@ public class CoffeeAutomatOptions
     }
     public void AddOption(string Option)
     {
-        Debug.Log("ADD OPTION ENTER");
+        //Debug.Log("ADD OPTION ENTER");
         OptionsNode newNode = new OptionsNode(Option);
         if (root == null)
         {
-            Debug.Log("n == 0 - " + Option);
+            //Debug.Log("n == 0 - " + Option);
             root = newNode;
             _nodesQueue.Enqueue(root);
         }
@@ -47,12 +47,12 @@ public class CoffeeAutomatOptions
                 OptionsNode current = _nodesQueue.Peek();
                 if (current.leftOption == null)
                 {
-                    Debug.Log("n left == 0 - ADD TO LEFT " + Option);
+                    //Debug.Log("n left == 0 - ADD TO LEFT " + Option);
                     current.leftOption = newNode;
                 }
                 else if (current.rightOption == null)
                 {
-                    Debug.Log("n right == 0 - ADD TO RIGHT " + Option);
+                    //Debug.Log("n right == 0 - ADD TO RIGHT " + Option);
                     current.rightOption = newNode;
                     _nodesQueue.Dequeue();
                 }
@@ -171,10 +171,10 @@ public class CoffeeAutomatManager : MonoBehaviour, IInteractable
 
     public void LeftOptionOnClick()
     {
-        Debug.Log("LEFT BUTTON WAS PRESSED");
+        //Debug.Log("LEFT BUTTON WAS PRESSED");
         if (menu.root.leftOption != null)
         {
-            Debug.Log("LEFT CHILD FROM " + menu.root.option + " IS NOT NULL");
+            //Debug.Log("LEFT CHILD FROM " + menu.root.option + " IS NOT NULL");
             menuTmp = menu;
             menu.root = menuTmp.root.leftOption;
 
@@ -198,10 +198,10 @@ public class CoffeeAutomatManager : MonoBehaviour, IInteractable
 
     public void RightOptionOnClick()
     {
-        Debug.Log("RIGHT BUTTON WAS PRESSED");
+        //Debug.Log("RIGHT BUTTON WAS PRESSED");
         if (menu.root.rightOption != null)
         {
-            Debug.Log("RIGHT CHILD FROM " + menu.root.option + " IS NOT NULL");
+            //Debug.Log("RIGHT CHILD FROM " + menu.root.option + " IS NOT NULL");
             menuTmp = menu;
             menu.root = menuTmp.root.rightOption;
             optionTextBox.text = menu.root.option;

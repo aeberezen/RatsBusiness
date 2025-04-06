@@ -11,6 +11,7 @@ public class MessageManager : MonoBehaviour
     [SerializeField] public TextMeshProUGUI messageBox;
     public UIManager UIManager;
     public SoundManager soundManager;
+    public StoryManager storyManager;
 
     [Header("NPC Management")]
     public GameObject[] NPC_collision;
@@ -47,6 +48,7 @@ public class MessageManager : MonoBehaviour
     public bool effectsObjects;
     public GameObject[] effects;
     public AudioClip newBackground;
+    public bool newBackgroundForAll;
     public int lineToStartEffect;
 
     [Header("Shake camera")]
@@ -55,12 +57,15 @@ public class MessageManager : MonoBehaviour
 
     [Header("Blink light")]
     public bool blinkLight;
+    public bool withShakeCamera;
     public float maxFrequency;
     public float maxDuration;
+    public float minExposure;
     public float maxExposure;
 
-    [Header("Color fog")]
+    [Header("Color")]
     public bool colorFog;
+    public bool colorBackground;
 
     [Header("Camera lookAt")]
     public bool cameraLookAt;
@@ -159,39 +164,6 @@ public class MessageManager : MonoBehaviour
 
                 EffectsCheck(false);
 
-                //effects managing
-                if (lineToStartEffect == index)
-                {
-                    //play all the effects
-                    if (shakeCamera)
-                    {
-                        //Effects effects = FindObjectOfType<Effects>();
-                        Effects.Instance.ShakeCamera(10f, cameraShakeDuration);
-                    }
-
-                    if (blinkLight)
-                    {
-                        Effects.Instance.BlinkLight(maxExposure, maxFrequency, maxDuration);
-                    }
-
-                    if (colorFog)
-                    {
-                        Effects.Instance.ColorFog(Color.red);
-                    }
-
-                    if (effectsObjects && effects != null)
-                    {
-                        foreach (GameObject g in effects) g.SetActive(true);
-                    }
-
-                    if (newBackground != null)
-                    {
-                        AudioSource audioSource = GetComponent<AudioSource>();
-                        audioSource.clip = newBackground;
-                        audioSource.Play();
-                    }
-                }
-
                 StartCoroutine(TypeLine());
             }
             else
@@ -256,6 +228,32 @@ public class MessageManager : MonoBehaviour
 
         done = true;
     }
+    public void SuccessFromLoad()
+    {
+        Debug.Log("GOOD JOB from LOAD");
+        failed = false;
+        playable = false;
+        isTriggered = false;
+        //MBIsBusy.SetActive(false);
+        messageBox.text = string.Empty;
+
+        //voiceAudioClip[index].UnloadAudioData();
+        //soundManager.Stop(voiceAudioClip[index]);
+        //if (isNPC) { soundManager.Stop("NPCSteps"); }
+
+        //index = 0;
+        //alfaValue = 1;
+        //CollidingPos = new Vector3(0, 0, 0);
+
+        StopAllCoroutines();
+
+        if (laptopCheck)
+        {
+            LaptopUpdate(true);
+        }
+
+        done = true;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -266,16 +264,16 @@ public class MessageManager : MonoBehaviour
             { 
                 Debug.Log("PLAYER CAME!");
 
-                //Camera lookAt effect
-                if (cameraLookAt)
-                {
-                    Effects.Instance.CameraLookAt(cameraLookAtNum);
-                }
-
                 if (isNPC)
                 {
                     //steps
                     soundManager.Play("NPCSteps", 0f);
+
+                    //Camera lookAt effect
+                    if (cameraLookAt)
+                    {
+                        Effects.Instance.CameraLookAt(cameraLookAtNum);
+                    }
                 }
 
                 isTriggered = true;
@@ -313,17 +311,29 @@ public class MessageManager : MonoBehaviour
             if (shakeCamera && cameraShakeDuration != 0 && !fromLoad)
             {
                 //Effects effects = FindObjectOfType<Effects>();
+                //Effects.Instance.StopBlinkingLight();
                 Effects.Instance.ShakeCamera(10f, cameraShakeDuration);
+            }
+
+            if (cameraLookAt && !fromLoad)
+            {
+                Effects.Instance.CameraLookAt(cameraLookAtNum);
             }
 
             if (blinkLight && maxExposure != 0 && maxFrequency != 0 && maxDuration != 0)
             {
-                Effects.Instance.BlinkLight(maxExposure, maxFrequency, maxDuration);
+                Effects.Instance.StopBlinkingLight();
+                Effects.Instance.StartBlinkLight(minExposure, maxExposure, maxFrequency, maxDuration, withShakeCamera);
             }
 
             if (colorFog)
             {
                 Effects.Instance.ColorFog(Color.red);
+            }
+
+            if (colorBackground)
+            {
+                Effects.Instance.ColorBackground(Color.red);
             }
 
             if (effectsObjects && effects != null)
@@ -336,6 +346,18 @@ public class MessageManager : MonoBehaviour
                 AudioSource audioSource = GetComponent<AudioSource>();
                 audioSource.clip = newBackground;
                 audioSource.Play();
+            }
+            if (newBackgroundForAll && newBackground != null)
+            {
+                foreach (GameObject g in storyManager.triggerBoxes)
+                {
+                    if (!g.GetComponent<MessageManager>().isNPC)
+                    {
+                        AudioSource audioSource = g.GetComponent<AudioSource>();
+                        audioSource.clip = newBackground;
+                        audioSource.Play();
+                    }
+                }
             }
         }
     }

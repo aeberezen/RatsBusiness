@@ -8,8 +8,8 @@ public class StoryManager : MonoBehaviour
 {
     public static StoryManager instance { get; private set; }
 
-    [Header("MB ferences")]
-    [SerializeField] public GameObject[] triggerBoxes;
+    [Header("MB references")]
+    public GameObject[] triggerBoxes;
 
     [Header("UI ferences")]
     [SerializeField] public GameObject gameSaved;
@@ -31,15 +31,18 @@ public class StoryManager : MonoBehaviour
 
     private bool isSaved = false;
     private bool fromLoad = false;
+    private bool settingStory = true;
 
     public void CheckStoryState()
     {
-        if (currentStoryState < 15 && triggerBoxes[currentStoryState].GetComponent<MessageManager>().done && !checkLaptopButton.GetComponent<Image>().enabled)
+        if (currentStoryState < 14 && triggerBoxes[currentStoryState].GetComponent<MessageManager>().done && !checkLaptopButton.GetComponent<Image>().enabled)
         {
             isSaved = false;
             fromLoad = false;
 
             currentStoryState++;
+            Debug.Log("CurrentState did ++! - " + currentStoryState);
+
             PlayerPrefs.SetInt("Scene", currentStoryState);
             if(currentStoryState > PlayerPrefs.GetInt("Progress", currentStoryState))
             {
@@ -69,26 +72,32 @@ public class StoryManager : MonoBehaviour
     {
         fromLoad = true;
         currentStoryState = StoryState;
-
-        for (int i = 0; i < 15; i++)
-        {
-            triggerBoxes[i].GetComponent<MessageManager>().playable = false;
-            if (i == currentStoryState)
+        /*
+            for (int i = 0; i < 15; i++)
             {
-                triggerBoxes[i].GetComponent<MessageManager>().playable = true;
+                triggerBoxes[i].GetComponent<MessageManager>().playable = false;
+                triggerBoxes[i].GetComponent<MessageManager>().done = true; //
+                if (i == currentStoryState)
+                {
+                    triggerBoxes[i].GetComponent<MessageManager>().playable = true;
+                    triggerBoxes[i].GetComponent<MessageManager>().done = false; //
+                }
             }
-            
-        }
+        */
 
-        //setting Computer info from previous states
         triggerBoxes[0].GetComponent<MessageManager>().LaptopClear();
         for (int i = 0; i < currentStoryState; i++)
         {
-            triggerBoxes[i].GetComponent<MessageManager>().LaptopUpdate(true);
+            Debug.Log("Set StoryState is going for story num - " + i);
+            triggerBoxes[i].GetComponent<MessageManager>().SuccessFromLoad();
             //TO FIX
             //turning on all the effects
             triggerBoxes[i].GetComponent<MessageManager>().EffectsCheck(fromLoad);
         }
+
+        triggerBoxes[currentStoryState].GetComponent<MessageManager>().playable = true;
+
+        settingStory = false;
     }
 
     private void Awake()
@@ -110,12 +119,16 @@ public class StoryManager : MonoBehaviour
 
     private void Start()
     {
+        settingStory = true;
         SetStoryState(currentStoryState);
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckStoryState();
+        if (!settingStory)
+        {
+            CheckStoryState();
+        }
     }
 }
