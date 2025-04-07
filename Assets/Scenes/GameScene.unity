@@ -5943,9 +5943,9 @@ MonoBehaviour:
   - '"Lucy" - I have to make plan this month, I have to make plan this month...'
   - '"Lucy" - I have to make plan this month, I have to make plan this month...'
   - '"Lucy" - I have to make plan this month, I have to make plan this month...'
-  textSpeed: 0.02
+  textSpeed: 0.05
   linesPause: 2
-  failPause: 20
+  failPause: 5
   playable: 0
   isTriggered: 0
   laptopCheck: 0
@@ -15564,7 +15564,7 @@ MonoBehaviour:
   - Lucy
   - Jeff
   lines:
-  - '"Jeff" - OMG, man, she''s crazy'
+  - '"Jeff" - Ah, man, I think I love her..'
   - '"Peter" - OHHH, HEY!!'
   - '"???" - Hi guys, sorry have no time for you'
   - '"Jeff" - Okay, well, see ya around'
@@ -26407,9 +26407,8 @@ MonoBehaviour:
   LucyUpdate: []
   KarenUpdate: []
   MailUpdate:
-  - '''Congratulations, Colleagues! You did a great job, everything will be perfectly
-    on time. Please, check the Menu stand, humans will be ready to order soon. Guten
-    Appetit and see you in a week.'
+  - "'Congratulations, Colleagues! This time everything happened even faster. \u0421heck
+    the Menu stand, humans will be ready to order soon. See you in a week. Best regards"
   laptop: {fileID: 1208014459}
   voiceAudioClip:
   - Jeff
@@ -26451,7 +26450,7 @@ MonoBehaviour:
   withShakeCamera: 0
   maxFrequency: 1.5
   maxDuration: 0.5
-  minExposure: -5
+  minExposure: -4
   maxExposure: -9
   colorFog: 1
   colorBackground: 1
@@ -37101,7 +37100,7 @@ MonoBehaviour:
   - Lucy
   - Lucy
   - Lucy
-  - Lucy
+  - PhoneMessage
   - Lucy
   lines:
   - '"Lucy" - I have to make plan this month... '
@@ -37119,7 +37118,7 @@ MonoBehaviour:
   failPause: 5
   playable: 0
   isTriggered: 0
-  laptopCheck: 0
+  laptopCheck: 1
   failed: 0
   done: 0
   effectsObjects: 0
@@ -39707,7 +39706,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b59239df2a57cc84db10ce5f280862ca, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.163834
+      value: 12.56
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b59239df2a57cc84db10ce5f280862ca, type: 3}
       propertyPath: m_LocalPosition.y
