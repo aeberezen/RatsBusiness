@@ -17,6 +17,11 @@ public class PlayerBehaviour : MonoBehaviour
     //public AudioClip[] walkingAudioClips;
     AudioClip currentClip;
 
+    [Header("Flags Management")]
+    //public GameObject flagDeleteUI;
+    public GameObject flagLimitUI;
+    public List<GameObject> flags = new List<GameObject>();
+    public int flagLimit = 3;
 
     [Header("Movement Settings")]
     [SerializeField] public bool canMove;
@@ -39,14 +44,20 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("States")]
     bool grounded;
 
-    /*
     public void PlaceFlag()
     {
-        currentFlag = Instantiate(flag, new Vector3(controller.transform.position.x, 2.69f, controller.transform.position.z + 5f), Quaternion.Euler(0f, targetAngle + 90f, 0f));
-        currentFlag.GetComponent<FlagManager>().ChangeColor();
-
+        if (flags.Count >= flagLimit)
+        {
+            flagLimitUI.SetActive(true);
+        }
+        else
+        {
+            currentFlag = Instantiate(flag, new Vector3(controller.transform.position.x, 2.69f, controller.transform.position.z + 1f), Quaternion.Euler(0f, targetAngle + 90f, 0f));
+            flags.Add(currentFlag);
+            currentFlag.GetComponent<FlagManager>().ChangeColor();
+        }
     }
-    */
+
     private void WarpToComputer()
     {
         //check on Y(that character doesn't fly)
@@ -108,5 +119,11 @@ public class PlayerBehaviour : MonoBehaviour
         }
         else { animator.SetBool("IsWalking", false); }
 
+        /*
+        if (Input.GetKeyDown("f"))
+        {
+            PlaceFlag();
+        }
+        */
     }
 }

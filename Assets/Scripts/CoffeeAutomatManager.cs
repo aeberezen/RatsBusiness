@@ -96,6 +96,10 @@ public class CoffeeAutomatManager : MonoBehaviour, IInteractable
             return true;
         }
     }
+    bool IInteractable.getIsUsed()
+    {
+        return isUsed;
+    }
 
     public void TurnCoffeeOn()
     {

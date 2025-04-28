@@ -50,6 +50,10 @@ public class ComputerManager : MonoBehaviour, IInteractable
             return true;
         }
     }
+    bool IInteractable.getIsUsed()
+    {
+        return isUsed;
+    }
 
     public void SetButtonActive(string Button)
     {

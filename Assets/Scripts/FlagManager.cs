@@ -7,9 +7,9 @@ public class FlagManager : MonoBehaviour, IInteractable
 {
     public GameObject pin;
 
+    //TODO: only 3 flags max
     bool IInteractable.Interact()
     {
-        Debug.Log("Use the Flag?");
         return true;
     }
 
@@ -17,4 +17,12 @@ public class FlagManager : MonoBehaviour, IInteractable
     {
         pin.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
     }
+
+    //???
+    bool IInteractable.getIsUsed()
+    {
+        return true;
+    }
+
+
 }

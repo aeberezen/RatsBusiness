@@ -54,6 +54,11 @@ public class FoodManager : MonoBehaviour, IInteractable
         }
     }
 
+    bool IInteractable.getIsUsed()
+    {
+        return isUsed;
+    }
+
     public void PrintMenu(FoodOption[] _menu)
     {
         Name.text = "";

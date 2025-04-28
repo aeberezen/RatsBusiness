@@ -31,6 +31,8 @@ public class UIManager : MonoBehaviour
     public Image LoadingBarFill;
 
     private bool isPaused = false;
+    public bool isUsingAMachine = false;
+
     Dictionary<int, int> Episodes = new Dictionary<int, int>()
     {
         { 1, 1 },
@@ -55,6 +57,12 @@ public class UIManager : MonoBehaviour
             yield return null;
         }
     }
+
+    public bool getIsPaused()
+    {
+        return isPaused;
+    }
+
     public void SetTaskFailed(bool set)
     {
         //checkLaptop.GetComponent<Image>().enabled = false;
@@ -92,7 +100,7 @@ public class UIManager : MonoBehaviour
 
     private void GamePause()
     {
-        if (Input.GetKeyDown("escape"))
+        if (Input.GetKeyDown("escape") && !isUsingAMachine)
         {
             if (!isPaused)
             {
@@ -115,6 +123,7 @@ public class UIManager : MonoBehaviour
                 soundManager.ResumeAll();
             }
         }
+        if (Input.GetKeyDown("escape") && isUsingAMachine) { isUsingAMachine = false; }
     }
 
     public void QuitOnClick()
